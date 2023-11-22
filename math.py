@@ -1,14 +1,41 @@
-##a = int(input("a 정수 입력 : "))
-##b = int(input("b 정수 입력 : "))
-##c = int(input("c 정수 입력 : "))
-##
-##print("세 정수의 평균은 %0.2f입니다." %((a+b+c)/3))
+import sys
+import pygame
+from pygame.locals import *
 
+pygame.init()
+SCREEN = pygame.display.set_mode((300,300))
+CLOCK = pygame.time.Clock()
 
-name = input("이름 : ")
-age = int(input("나이 : "))
-height = float(input("키 : "))
+sysfont = pygame.font.SysFont(None, 36)
+txt = sysfont.render("0", True, (0, 0, 0))
+n = 0
+BLACK = ( 0, 0, 0)
+while True:
+    SCREEN.fill((255, 255, 255))
 
-print("== 친구 소개하기 ==")
-print("제 친구의 이름은 %s이고, 나이는 %d이에요." %(name, age))
-print("키는 %0.1f예요." % height)
+    for event in pygame.event.get() :
+        if event.type == QUIT :
+            pygame.quit()
+            sys.exit()
+
+        if event.type == KEYDOWN:
+            if event.key == K_UP :
+                n+=10
+                txt = sysfont.render("(%d)" % (n), True, BLACK)
+            if event.key == K_DOWN :
+                n-=10
+                txt = sysfont.render("(%d)" % (n), True, BLACK)
+            if event.key == K_RIGHT :
+                n/=10
+                txt = sysfont.render("(%d)" % (n), True, BLACK)
+            if event.key == K_LEFT :
+                n*=10
+                txt = sysfont.render("(%d)" % (n), True, BLACK)
+            if event.key == K_ESCAPE :
+                pygame.quit()
+                sys.exit()
+
+    txt = sysfont.render('%d' % n, True, (0, 0, 0))
+    SCREEN.blit(txt, (100, 120))
+    pygame.display.update()
+    CLOCK.tick(60)
